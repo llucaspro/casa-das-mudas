@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+  <html lang="pt-BR">
+  <head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nossas Mudas — Casa das Mudas</title>
+  <meta name="description" content="Catálogo completo de mudas da Casa das Mudas. Plantas para interior, exterior, suculentas e cactos em Tupã, SP.">
+  <meta property="og:title" content="Nossas Mudas — Casa das Mudas">
+  <meta property="og:description" content="Catálogo completo de mudas da Casa das Mudas. Plantas para interior, exterior, suculentas e cactos em Tupã, SP.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1683994857980-280afa59a3f8?fm=jpg&q=80&w=1200">
+  <meta name="theme-color" content="#12733D">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+  <header id="navbar" class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Casa das Mudas — início">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#12733D"/><path d="M16 6 C16 6, 10 12, 10 18 C10 21.3 12.7 24 16 24 C19.3 24 22 21.3 22 18 C22 12 16 6 16 6Z" fill="#F6F2E8" opacity="0.9"/><path d="M16 14 C16 14, 9 15, 9 21" stroke="#F6F2E8" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/><path d="M16 16 C16 16, 23 17, 23 22" stroke="#F6F2E8" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/></svg>
+        <span class="nav-logo-text">Casa das Mudas</span>
+      </a>
+      <nav aria-label="Navegação principal"><ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Início</a></li>
+        <li><a href="mudas.html" class="nav-link">Mudas</a></li>
+        <li><a href="sobre.html" class="nav-link">Sobre</a></li>
+        <li><a href="contato.html" class="nav-link">Contato</a></li>
+      </ul></nav>
+      <div class="nav-actions">
+        <button class="cart-btn" aria-label="Carrinho"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 4.6A1 1 0 0 0 5.6 19H17M17 13v6M9 19a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/></svg><span class="cart-badge">0</span></button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path id="menuIconPath" d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu"><div class="mobile-menu-inner">
+      <a href="index.html">Início</a><a href="mudas.html">Mudas</a><a href="sobre.html">Sobre</a><a href="contato.html">Contato</a>
+      <a href="contato.html" class="btn-cta" style="margin-top:0.5rem;justify-content:center">Fale conosco</a>
+    </div></div>
+  </header><div id="spineWrap" class="spine-wrap" aria-hidden="true"><svg style="height:100%;width:100%" viewBox="0 0 40 2400" preserveAspectRatio="none"><path id="spinePath" d="M20,0 C28,180 12,360 20,540 C28,720 12,900 20,1080 C28,1260 12,1440 20,1620 C28,1800 12,1980 20,2160 C25,2280 16,2340 20,2400" style="fill:none;stroke:#12733D;stroke-width:2;stroke-linecap:round"/></svg></div>
+  <main>
+    <section class="page-hero">
+      <div class="container page-hero-content">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(246,242,232,.55)" class="reveal">Catálogo completo</span>
+        <h1 class="page-hero-title reveal reveal-delay-1">Nossas Mudas</h1>
+        <p class="page-hero-desc reveal reveal-delay-2">Mais de 48 variedades cultivadas com cuidado, prontas para encontrar um lar. Filtre por categoria e escolha a sua.</p>
+      </div>
+    </section>
+    <section style="padding:5rem 0 7rem">
+      <div class="container" style="padding-left:clamp(1.5rem,5vw,5rem)">
+        <div class="filter-bar reveal">
+          <button class="filter-btn active" data-filter="todas">Todas</button>
+          <button class="filter-btn" data-filter="interior">Interior</button>
+          <button class="filter-btn" data-filter="exterior">Exterior</button>
+          <button class="filter-btn" data-filter="suculentas">Suculentas</button>
+          <button class="filter-btn" data-filter="cactos">Cactos</button>
+        </div>
+        <div class="catalog-grid"><article class="card-muda catalog-item reveal" data-cat="interior">
+    <div class="card-img-wrap">
+      <img src="https://images.unsplash.com/photo-1636525653613-2a3a05c00759?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Costela-de-Adão" loading="lazy">
+      <div class="card-img-fade"></div>
+      <span class="card-badge">Popular</span>
+    </div>
+    <div class="card-body">
+      <h3 class="card-name">Costela-de-Adão</h3>
+      <p class="card-sci">Monstera deliciosa</p>
+      <div class="card-footer">
+        <span class="card-price">R$ 89,90</span>
+        <button class="add-btn card-add" data-name="Costela-de-Adão" data-price="89.90">Adicionar</button>
+      </div>
+    </div>
+  </article><article class="card-muda catalog-item reveal reveal-delay-1" data-cat="interior">
+    <div class="card-img-wrap">
+      <img src="https://images.unsplash.com/photo-1658464902088-bcb65d4807d3?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Jiboia" loading="lazy">
+      <div class="card-img-fade"></div>
+      
+    </div>
+    <div class="card-body">
+      <h3 class="card-name">Jiboia</h3>
+      <p class="card-sci">Epipremnum aureum</p>
+      <div class="card-footer">
+        <span class="card-price">R$ 34,90</span>
+        <button class="add-btn card-add" data-name="Jiboia" data-price="34.90">Adicionar</button>
+      </div>
+    </div>
+  </article><article class="card-muda catalog-item reveal reveal-delay-2" data-cat="suculentas">
+    <div class="card-img-wrap">
+      <img src="https://images.unsplash.com/photo-1514192497895-875274f82835?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Suculenta Echeveria" loading="lazy">
+      <div class="card-img-fade"></div>
+      
+    </div>
+    <div class="card-body">
+      <h3 class="card-name">Suculenta Echeveria</h3>
+      <p class="card-sci">Echeveria elegans</p>
+      <div class="card-footer">
+        <span class="card-price">R$ 24,90</span>
+        <button class="add-btn card-add" data-name="Suculenta Echeveria" data-price="24.90">Adicionar</button>
+      </div>
+    </div>
+  </article><article class="card-muda catalog-item reveal reveal-delay-3" data-cat="interior">
+    <div class="card-img-wrap">
+      <img src="https://images.unsplash.com/photo-1555955255-3fe5d2c8db4e?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Zamioculca" loading="lazy">
+      <div class="card-img-fade"></div>
+      
+    </div>
+    <div class="card-body">
+      <h3 class="card-name">Zamioculca</h3>
+      <p class="card-sci">Zamioculcas zamiifolia</p>
+      <div class="card-footer">
+        <span class="card-price">R$ 69,90</span>
+        <button class="add-btn card-add" data-name="Zamioculca" data-price="69.90">Adicionar</button>
+      </div>
+    </div>
+  </article><article class="card-muda catalog-item reveal" data-cat="interior">
+    <div class="card-img-wrap">
+      <img src="https://images.unsplash.com/photo-1509423350716-97f9360b4e09?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Fícus Lyrata" loading="lazy">
+      <div class="card-img-fade"></div>
+      <span class="card-badge">Destaque</span>
+    </div>
+    <div class="card-body">
+      <h3 class="card-name">Fícus Lyrata</h3>
+      <p class="card-sci">Ficus lyrata</p>
+      <div class="card-footer">
+        <span class="card-price">R$ 129,90</span>
+        <button class="add-btn card-add" data-name="Fícus Lyrata" data-price="129.90">Adicionar</button>
+      </div>
+    </div>
+  </article><article class="card-muda catalog-item reveal reveal-delay-1" data-cat="cactos">
+    <div class="card-img-wrap">
+      <img src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Cacto San Pedro" loading="lazy">
+      <div class="card-img-fade"></div>
+      
+    </div>
+    <div class="card-body">
+      <h3 class="card-name">Cacto San Pedro</h3>
+      <p class="card-sci">Echinopsis pachanoi</p>
+      <div class="card-footer">
+        <span class="card-price">R$ 44,90</span>
+        <button class="add-btn card-add" data-name="Cacto San Pedro" data-price="44.90">Adicionar</button>
+      </div>
+    </div>
+  </article><article class="card-muda catalog-item reveal reveal-delay-2" data-cat="exterior">
+    <div class="card-img-wrap">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Palmeira Areca" loading="lazy">
+      <div class="card-img-fade"></div>
+      
+    </div>
+    <div class="card-body">
+      <h3 class="card-name">Palmeira Areca</h3>
+      <p class="card-sci">Dypsis lutescens</p>
+      <div class="card-footer">
+        <span class="card-price">R$ 119,90</span>
+        <button class="add-btn card-add" data-name="Palmeira Areca" data-price="119.90">Adicionar</button>
+      </div>
+    </div>
+  </article><article class="card-muda catalog-item reveal reveal-delay-3" data-cat="interior">
+    <div class="card-img-wrap">
+      <img src="https://images.unsplash.com/photo-1572981779307-38b8cabb2407?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Samambaia" loading="lazy">
+      <div class="card-img-fade"></div>
+      
+    </div>
+    <div class="card-body">
+      <h3 class="card-name">Samambaia</h3>
+      <p class="card-sci">Nephrolepis exaltata</p>
+      <div class="card-footer">
+        <span class="card-price">R$ 39,90</span>
+        <button class="add-btn card-add" data-name="Samambaia" data-price="39.90">Adicionar</button>
+      </div>
+    </div>
+  </article><article class="card-muda catalog-item reveal" data-cat="interior">
+    <div class="card-img-wrap">
+      <img src="https://images.unsplash.com/photo-1463123081488-789f998ac9c4?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Calathea Ornata" loading="lazy">
+      <div class="card-img-fade"></div>
+      <span class="card-badge">Novo</span>
+    </div>
+    <div class="card-body">
+      <h3 class="card-name">Calathea Ornata</h3>
+      <p class="card-sci">Calathea ornata</p>
+      <div class="card-footer">
+        <span class="card-price">R$ 59,90</span>
+        <button class="add-btn card-add" data-name="Calathea Ornata" data-price="59.90">Adicionar</button>
+      </div>
+    </div>
+  </article><article class="card-muda catalog-item reveal reveal-delay-1" data-cat="suculentas">
+    <div class="card-img-wrap">
+      <img src="https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Aloe Vera" loading="lazy">
+      <div class="card-img-fade"></div>
+      
+    </div>
+    <div class="card-body">
+      <h3 class="card-name">Aloe Vera</h3>
+      <p class="card-sci">Aloe barbadensis</p>
+      <div class="card-footer">
+        <span class="card-price">R$ 29,90</span>
+        <button class="add-btn card-add" data-name="Aloe Vera" data-price="29.90">Adicionar</button>
+      </div>
+    </div>
+  </article><article class="card-muda catalog-item reveal reveal-delay-2" data-cat="exterior">
+    <div class="card-img-wrap">
+      <img src="https://images.unsplash.com/photo-1490750967868-88df5691cc84?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Ixora Vermelha" loading="lazy">
+      <div class="card-img-fade"></div>
+      
+    </div>
+    <div class="card-body">
+      <h3 class="card-name">Ixora Vermelha</h3>
+      <p class="card-sci">Ixora coccinea</p>
+      <div class="card-footer">
+        <span class="card-price">R$ 54,90</span>
+        <button class="add-btn card-add" data-name="Ixora Vermelha" data-price="54.90">Adicionar</button>
+      </div>
+    </div>
+  </article><article class="card-muda catalog-item reveal reveal-delay-3" data-cat="cactos">
+    <div class="card-img-wrap">
+      <img src="https://images.unsplash.com/photo-1509587584298-0f3620e5d3cc?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Mandacaru" loading="lazy">
+      <div class="card-img-fade"></div>
+      
+    </div>
+    <div class="card-body">
+      <h3 class="card-name">Mandacaru</h3>
+      <p class="card-sci">Cereus jamacaru</p>
+      <div class="card-footer">
+        <span class="card-price">R$ 49,90</span>
+        <button class="add-btn card-add" data-name="Mandacaru" data-price="49.90">Adicionar</button>
+      </div>
+    </div>
+  </article></div>
+        <div style="text-align:center;margin-top:4rem" class="reveal">
+          <p style="color:rgba(20,38,26,.5);font-family:'IBM Plex Mono',monospace;font-size:.8125rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem">Mostrando 12 de 48 mudas</p>
+          <a href="contato.html" class="btn-outline">Consultar mais variedades</a>
+        </div>
+      </div>
+    </section>
+    <section class="cta-banner">
+      <div class="container">
+        <h2 class="cta-banner-title reveal">Não encontrou o que procura?</h2>
+        <p class="cta-banner-desc reveal reveal-delay-1">Entre em contato e veremos se temos a muda certa esperando por você no viveiro.</p>
+        <div class="reveal reveal-delay-2"><a href="contato.html" class="btn-cta-inv">Falar pelo WhatsApp <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-left:.5rem"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="container"><div class="footer-grid">
+    <div><div class="footer-brand-name">Casa das Mudas</div><p class="footer-brand-desc">Cultivo com raiz, entrega com cuidado. Mudas saudáveis para casas em Tupã, SP e região.</p></div>
+    <div><h4 class="footer-col-title">Páginas</h4><ul class="footer-links"><li><a href="index.html">Início</a></li><li><a href="mudas.html">Mudas</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="contato.html">Contato</a></li></ul></div>
+    <div><h4 class="footer-col-title">Contato</h4><div class="footer-contact-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="flex-shrink:0;margin-top:2px"><path d="M12 21c-4.4-4.3-8-7.9-8-11a8 8 0 0 1 16 0c0 3.1-3.6 6.7-8 11Z"/><circle cx="12" cy="10" r="2"/></svg>Tupã, SP</div><div class="footer-contact-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="flex-shrink:0;margin-top:2px"><path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 3.1 5.2 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.4 2L9 10.9a16 16 0 0 0 6.1 6.1l1.4-1.4a2 2 0 0 1 2-.5c.9.3 1.8.6 2.8.7A2 2 0 0 1 22 17Z"/></svg>(14) 99999-0000</div><div class="footer-contact-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="flex-shrink:0;margin-top:2px"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>contato@casadasmudas.com.br</div></div>
+    <div><h4 class="footer-col-title">Redes</h4><div class="social-links"><a href="#" aria-label="Instagram" class="social-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#" aria-label="WhatsApp" class="social-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z"/></svg></a></div></div>
+  </div><div class="footer-bottom"><p class="footer-copy">&copy; 2025 Casa das Mudas. Todos os direitos reservados.</p><p class="footer-copy">Feito com 🌿 em Tupã, SP</p></div></div></footer><div id="toast" class="toast" role="status" aria-live="polite"><svg class="toast-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10Z"/><path d="m9 12 2 2 4-4"/></svg><span class="toast-msg"></span></div>
+  <script src="main.js"></script>
+  </body></html>
