@@ -19,72 +19,99 @@
   /* ========== INTRO SPLASH ========== */
   /* Exit is controlled by JS adding .intro-hiding class — no CSS animation timing bugs */
   #intro{
-    position:fixed;inset:0;z-index:9999;
-    background:#0f1e13;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.25rem;
-    opacity:1;
-    transition:opacity 1s ease;
-    will-change:opacity;
-  }
-  #intro.intro-hiding{opacity:0;pointer-events:none}
-  .intro-logo-wrap{
-    position:relative;
-    animation:introLogoIn 0.7s cubic-bezier(.34,1.4,.64,1) 0.15s both;
-  }
-  @keyframes introLogoIn{
-    from{opacity:0;transform:scale(0.6) translateY(12px)}
-    to{opacity:1;transform:scale(1) translateY(0)}
-  }
-  .intro-logo{
-    width:96px;height:96px;max-width:96px;min-width:96px;
-    border-radius:20px;object-fit:cover;
-    display:block;flex-shrink:0;
-    box-shadow:0 20px 48px -12px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.06);
-  }
-  .intro-ring{
-    position:absolute;inset:-6px;border-radius:26px;
-    border:1.5px solid rgba(107,143,82,0.35);
-    animation:introRing 1s ease 0.7s both;
-  }
-  @keyframes introRing{
-    from{opacity:0;transform:scale(1.2)}
-    to{opacity:1;transform:scale(1)}
-  }
-  .intro-brand{
-    font-family:'Bricolage Grotesque',system-ui,sans-serif;
-    font-weight:700;font-size:clamp(1.5rem,4vw,2.25rem);
-    color:#f0ece0;letter-spacing:-0.02em;
-    animation:introTextIn 0.6s ease 0.55s both;
-    margin-top:0.25rem;
-  }
-  .intro-sub{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.6875rem;letter-spacing:0.22em;text-transform:uppercase;
-    color:rgba(240,236,224,0.42);
-    animation:introTextIn 0.6s ease 0.75s both;
-  }
-  @keyframes introTextIn{
-    from{opacity:0;transform:translateY(8px)}
-    to{opacity:1;transform:translateY(0)}
-  }
-  .intro-bar{
-    width:120px;height:1.5px;
-    background:rgba(240,236,224,0.1);
-    border-radius:9999px;overflow:hidden;
-    margin-top:0.5rem;
-    animation:introTextIn 0.5s ease 0.9s both;
-  }
-  .intro-bar-fill{
-    height:100%;width:0;
-    background:linear-gradient(90deg,#3d9457,#6b8f52);
-    border-radius:9999px;
-    animation:introBarFill 2.2s cubic-bezier(.25,.46,.45,.94) 1s both;
-  }
-  @keyframes introBarFill{from{width:0}to{width:100%}}
-  @media(prefers-reduced-motion:reduce){
-    .intro-logo-wrap,.intro-brand,.intro-sub,.intro-bar{animation:none;opacity:1}
-    .intro-bar-fill{animation:none;width:100%}
-  }
+      position:fixed;inset:0;z-index:9999;
+      background:#0f1e13;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.25rem;
+      opacity:1;
+      transition:opacity .7s cubic-bezier(.4,0,.2,1);
+      will-change:opacity;
+    }
+    #intro.intro-hiding{opacity:0;pointer-events:none}
+    .intro-logo-wrap,.intro-brand,.intro-sub,.intro-bar{opacity:0}
+    #intro.intro-hiding .intro-logo-wrap,
+    #intro.intro-hiding .intro-brand,
+    #intro.intro-hiding .intro-sub,
+    #intro.intro-hiding .intro-bar{
+      transition:opacity .35s ease,transform .35s ease;
+      opacity:0!important;
+      transform:translateY(-6px) scale(.98);
+      animation:none!important;
+    }
+    .intro-logo-wrap{
+      position:relative;
+    }
+    #intro.intro-ready .intro-logo-wrap{
+      animation:introLogoIn .6s cubic-bezier(.34,1.4,.64,1) .05s both;
+    }
+    @keyframes introLogoIn{
+      from{opacity:0;transform:scale(0.6) translateY(12px)}
+      to{opacity:1;transform:scale(1) translateY(0)}
+    }
+    .intro-logo{
+      width:96px;height:96px;max-width:96px;min-width:96px;
+      border-radius:20px;object-fit:cover;
+      display:block;flex-shrink:0;
+      box-shadow:0 20px 48px -12px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.06);
+    }
+    .intro-ring{
+      position:absolute;inset:-6px;border-radius:26px;
+      border:1.5px solid rgba(107,143,82,0.35);
+      opacity:0;
+    }
+    #intro.intro-ready .intro-ring{
+      animation:introRing .8s ease .35s both;
+    }
+    @keyframes introRing{
+      from{opacity:0;transform:scale(1.2)}
+      to{opacity:1;transform:scale(1)}
+    }
+    .intro-brand{
+      font-family:'Bricolage Grotesque',system-ui,sans-serif;
+      font-weight:700;font-size:clamp(1.5rem,4vw,2.25rem);
+      color:#f0ece0;letter-spacing:-0.02em;
+      margin-top:0.25rem;
+    }
+    #intro.intro-ready .intro-brand{
+      animation:introTextIn .5s ease .3s both;
+    }
+    .intro-sub{
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.6875rem;letter-spacing:0.22em;text-transform:uppercase;
+      color:rgba(240,236,224,0.42);
+    }
+    #intro.intro-ready .intro-sub{
+      animation:introTextIn .5s ease .42s both;
+    }
+    @keyframes introTextIn{
+      from{opacity:0;transform:translateY(8px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    .intro-bar{
+      width:120px;height:1.5px;
+      background:rgba(240,236,224,0.1);
+      border-radius:9999px;overflow:hidden;
+      margin-top:0.5rem;
+    }
+    #intro.intro-ready .intro-bar{
+      animation:introTextIn .4s ease .52s both;
+    }
+    .intro-bar-fill{
+      height:100%;width:0;
+      background:linear-gradient(90deg,#3d9457,#6b8f52);
+      border-radius:9999px;
+    }
+    #intro.intro-ready .intro-bar-fill{
+      animation:introBarFill 1s cubic-bezier(.25,.46,.45,.94) .6s both;
+    }
+    @keyframes introBarFill{from{width:0}to{width:100%}}
+    @media(prefers-reduced-motion:reduce){
+      .intro-logo-wrap,.intro-brand,.intro-sub,.intro-bar,.intro-ring{animation:none!important;opacity:1!important;transform:none!important}
+      .intro-bar-fill{animation:none;width:100%}
+      #intro.intro-hiding .intro-logo-wrap,
+      #intro.intro-hiding .intro-brand,
+      #intro.intro-hiding .intro-sub,
+      #intro.intro-hiding .intro-bar{opacity:1!important;transform:none!important}
+    }
   
 /* ========== LAYOUT ========== */
   .container{max-width:1280px;margin:0 auto;padding:0 1.5rem}
