@@ -1,30 +1,66 @@
 (function(){
     'use strict';
 
-    /* ── Intro splash: JS-controlled fade — no CSS timing bugs ── */
+    /* ── Intro splash: font-aware, choreographed with hero reveal ── */
     (function(){
       var intro = document.getElementById('intro');
       if (!intro) return;
+
+      // Only play the entrance animation once the brand fonts are actually
+      // loaded, so letters never swap/re-flow mid-animation.
+      function markReady(){ intro.classList.add('intro-ready'); }
+      if (document.fonts && document.fonts.ready) {
+        var fontsSettled = false;
+        document.fonts.ready.then(function(){ fontsSettled = true; markReady(); });
+        setTimeout(function(){ if (!fontsSettled) markReady(); }, 1200);
+      } else {
+        markReady();
+      }
+
       var done = false;
+      var MIN_SHOW = 1500; // let the brand breathe, even on instant loads
+      var MAX_WAIT = 2800; // never block longer than this on slow font loads
+      var shownAt = Date.now();
+
+      function clean(){ if (intro.parentNode) intro.parentNode.removeChild(intro); }
+
       function dismiss() {
         if (done) return;
         done = true;
         intro.classList.add('intro-hiding');
-        var clean = function(){ if (intro.parentNode) intro.parentNode.removeChild(intro); };
         intro.addEventListener('transitionend', clean, { once: true });
-        setTimeout(clean, 1200); // fallback: remove after transition should be done
+        setTimeout(clean, 900); // fallback: remove after transition should be done
+        // Let the rest of the page know it can start its own entrance animations
+        window.dispatchEvent(new CustomEvent('cdmIntroDone'));
       }
-      // Show intro for 3.2s, then fade gracefully
-      setTimeout(dismiss, 3200);
+
+      function afterMinShow(){
+        setTimeout(dismiss, Math.max(0, MIN_SHOW - (Date.now() - shownAt)));
+      }
+
+      if (document.fonts && document.fonts.ready) {
+        var readySettled = false;
+        document.fonts.ready.then(function(){ readySettled = true; afterMinShow(); });
+        setTimeout(function(){ if (!readySettled) afterMinShow(); }, MAX_WAIT);
+      } else {
+        setTimeout(dismiss, MIN_SHOW);
+      }
+
       // Also allow tapping the intro to skip it
       intro.addEventListener('click', dismiss, { once: true });
     })();
 
-    /* ── WA button: appear after intro is gone ── */
+    /* ── WA button: appear once the intro has cleared ── */
     (function(){
       var wa = document.querySelector('.wa-float');
       if (!wa) return;
-      setTimeout(function(){ wa.classList.add('wa-visible'); }, 4000);
+      var intro = document.getElementById('intro');
+      function show(){ setTimeout(function(){ wa.classList.add('wa-visible'); }, 400); }
+      if (intro) {
+        window.addEventListener('cdmIntroDone', show, { once: true });
+      } else {
+        setTimeout(show, 600);
+      }
     })();
 
     /* ── Navbar scroll shadow ── */
@@ -56,17 +92,28 @@
       });
     }
 
-    /* ── Reveal on scroll ── */
+    /* ── Reveal on scroll (starts once the intro has cleared, so above-the-── */
+    /* ── fold content animates in instead of popping in already-visible)  ── */
     var revealEls = document.querySelectorAll('.reveal');
-    if (revealEls.length && 'IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-        });
-      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-      revealEls.forEach(function(el){ io.observe(el); });
-    } else {
-      revealEls.forEach(function(el){ el.classList.add('visible'); });
+    if (revealEls.length) {
+      var startReveal = function(){
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function(entries){
+            entries.forEach(function(e){
+              if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+            });
+          }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+          revealEls.forEach(function(el){ io.observe(el); });
+        } else {
+          revealEls.forEach(function(el){ el.classList.add('visible'); });
+        }
+      };
+      var introEl = document.getElementById('intro');
+      if (introEl) {
+        window.addEventListener('cdmIntroDone', startReveal, { once: true });
+      } else {
+        startReveal();
+      }
     }
 
     /* ── Spine scroll progress ── */
