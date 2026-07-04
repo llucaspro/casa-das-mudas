@@ -123,7 +123,8 @@
       spinePath.style.strokeDasharray = len;
       spinePath.style.strokeDashoffset = len;
       window.addEventListener('scroll', function(){
-        var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+        var max = document.body.scrollHeight - window.innerHeight;
+        var pct = max > 0 ? window.scrollY / max : 1;
         spinePath.style.strokeDashoffset = len * (1 - pct);
       }, { passive: true });
     }
