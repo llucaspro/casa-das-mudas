@@ -132,10 +132,11 @@
       window.addEventListener('resize',()=>{W=canvas.width=innerWidth;H=canvas.height=innerHeight});
     }
 
-    // Remove intro overlay after animation ends
+    // Remove intro overlay after animation ends (with timeout fallback)
     const intro=document.getElementById('intro');
     if(intro){
-      intro.addEventListener('animationend',()=>{intro.style.display='none'},{once:true});
+      intro.addEventListener('animationend',()=>{intro.remove()},{once:true});
+      setTimeout(()=>{if(document.getElementById('intro'))intro.remove()},5500);
     }
 
     // details FAQ arrow
