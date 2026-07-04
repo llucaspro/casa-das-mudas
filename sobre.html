@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+  <html lang="pt-BR">
+  <head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre Nós — Casa das Mudas</title>
+  <meta name="description" content="Conheça a história da Casa das Mudas: um cantinho de quintal em Tupã, SP que virou referência em mudas saudáveis e bem cuidadas.">
+  <meta property="og:title" content="Sobre Nós — Casa das Mudas">
+  <meta property="og:description" content="Conheça a história da Casa das Mudas: um cantinho de quintal em Tupã, SP que virou referência em mudas saudáveis e bem cuidadas.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1683994857980-280afa59a3f8?fm=jpg&q=80&w=1200">
+  <meta name="theme-color" content="#12733D">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+  <header id="navbar" class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Casa das Mudas — início">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#12733D"/><path d="M16 6 C16 6, 10 12, 10 18 C10 21.3 12.7 24 16 24 C19.3 24 22 21.3 22 18 C22 12 16 6 16 6Z" fill="#F6F2E8" opacity="0.9"/><path d="M16 14 C16 14, 9 15, 9 21" stroke="#F6F2E8" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/><path d="M16 16 C16 16, 23 17, 23 22" stroke="#F6F2E8" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/></svg>
+        <span class="nav-logo-text">Casa das Mudas</span>
+      </a>
+      <nav aria-label="Navegação principal"><ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Início</a></li>
+        <li><a href="mudas.html" class="nav-link">Mudas</a></li>
+        <li><a href="sobre.html" class="nav-link">Sobre</a></li>
+        <li><a href="contato.html" class="nav-link">Contato</a></li>
+      </ul></nav>
+      <div class="nav-actions">
+        <button class="cart-btn" aria-label="Carrinho"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 4.6A1 1 0 0 0 5.6 19H17M17 13v6M9 19a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/></svg><span class="cart-badge">0</span></button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path id="menuIconPath" d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu"><div class="mobile-menu-inner">
+      <a href="index.html">Início</a><a href="mudas.html">Mudas</a><a href="sobre.html">Sobre</a><a href="contato.html">Contato</a>
+      <a href="contato.html" class="btn-cta" style="margin-top:0.5rem;justify-content:center">Fale conosco</a>
+    </div></div>
+  </header>
+  <div id="spineWrap" class="spine-wrap" aria-hidden="true"><svg style="height:100%;width:100%" viewBox="0 0 40 2400" preserveAspectRatio="none"><path id="spinePath" d="M20,0 C28,180 12,360 20,540 C28,720 12,900 20,1080 C28,1260 12,1440 20,1620 C28,1800 12,1980 20,2160 C25,2280 16,2340 20,2400" style="fill:none;stroke:#12733D;stroke-width:2;stroke-linecap:round"/></svg></div>
+  <main>
+    <!-- Hero -->
+    <section style="padding:10rem 0 5rem;background:#14261A;color:#F6F2E8;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1576238882483-13ab85a03c52?fm=jpg&q=50&w=1400&auto=format&fit=crop');background-size:cover;background-position:center;opacity:0.18"></div>
+      <div class="container" style="position:relative;z-index:1">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(246,242,232,0.55)" class="reveal">Nossa história</span>
+        <h1 style="font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:700;font-size:clamp(2.5rem,5vw,4.5rem);line-height:1.05;margin-top:1rem;max-width:40rem" class="reveal reveal-delay-1">Uma casa pequena,<br>cuidando de muitas mudas.</h1>
+        <p style="font-size:1.125rem;opacity:0.7;max-width:36rem;line-height:1.7;margin-top:1.25rem" class="reveal reveal-delay-2">Da horta do quintal em Tupã para a vida de milhares de lares no interior de São Paulo.</p>
+      </div>
+    </section>
+
+    <!-- Foto + intro -->
+    <section style="padding:6rem 0;background:rgba(237,231,211,0.4)">
+      <div class="container" style="padding-left:clamp(1.5rem,5vw,5rem)">
+        <div style="display:grid;grid-template-columns:1fr;gap:4rem;align-items:center" class="about-grid">
+          <div class="about-imgs reveal">
+            <img src="https://images.unsplash.com/photo-1651592280676-a01949b60cd7?fm=jpg&q=80&w=1200&auto=format&fit=crop" alt="Plantando no viveiro" class="about-img-main" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Detalhe de muda em vaso" class="about-img-accent" loading="lazy">
+          </div>
+          <div>
+            <span class="section-tag reveal">Quem somos</span>
+            <h2 class="section-title reveal reveal-delay-1">Nascemos do amor por plantar</h2>
+            <p class="section-desc reveal reveal-delay-2">A Casa das Mudas nasceu de um simples canteiro de quintal, onde a família cultivava mudas por pura paixão pelas plantas. Com o tempo, os vizinhos começaram a pedir. E os vizinhos dos vizinhos. Hoje, somos um viveiro consolidado, mas mantemos a mesma essência: cada muda é cuidada como se fosse a única.</p>
+            <p style="font-size:1.125rem;line-height:1.7;color:rgba(20,38,26,0.65);margin-top:1.25rem" class="reveal reveal-delay-3">Baseados em Tupã, SP, atendemos toda a região com entrega cuidadosa e orientação personalizada para cada cliente. Não vendemos plantas — criamos o começo de um jardim.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Linha do tempo -->
+    <section style="padding:6rem 0">
+      <div class="container">
+        <div style="max-width:36rem;margin-bottom:4rem">
+          <span class="section-tag reveal">Nossa trajetória</span>
+          <h2 class="section-title reveal reveal-delay-1">Como chegamos até aqui</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:0;max-width:42rem" class="reveal reveal-delay-2">
+          <div class="timeline">
+            <div class="timeline-item">
+              <p class="timeline-year">2016</p>
+              <h3 class="timeline-title">O primeiro canteiro</h3>
+              <p class="timeline-desc">Tudo começa com um pequeno canteiro de quintal e a vontade de compartilhar o amor pelas plantas com os vizinhos de Tupã.</p>
+            </div>
+            <div class="timeline-item">
+              <p class="timeline-year">2018</p>
+              <h3 class="timeline-title">Primeiros clientes</h3>
+              <p class="timeline-desc">A procura cresce e as primeiras vendas formais acontecem. O boca a boca transforma o hobby em um pequeno negócio familiar.</p>
+            </div>
+            <div class="timeline-item">
+              <p class="timeline-year">2020</p>
+              <h3 class="timeline-title">Crescimento do viveiro</h3>
+              <p class="timeline-desc">Com a pandemia, o interesse por plantas explode. Expandimos o espaço e diversificamos as espécies para atender a nova demanda.</p>
+            </div>
+            <div class="timeline-item">
+              <p class="timeline-year">2022</p>
+              <h3 class="timeline-title">1.000 mudas entregues</h3>
+              <p class="timeline-desc">Um marco importante: mais de mil mudas já encontraram novos lares. A reputação de qualidade e cuidado fica cada vez mais consolidada.</p>
+            </div>
+            <div class="timeline-item">
+              <p class="timeline-year">2024</p>
+              <h3 class="timeline-title">3.000 mudas e contando</h3>
+              <p class="timeline-desc">Hoje, com 48 variedades disponíveis e entregas em toda a região, seguimos crescendo sem perder a raiz: cada planta, um cuidado único.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Valores -->
+    <section style="padding:6rem 0;background:rgba(237,231,211,0.4)">
+      <div class="container">
+        <div style="max-width:36rem;margin-bottom:1rem">
+          <span class="section-tag reveal">O que nos guia</span>
+          <h2 class="section-title reveal reveal-delay-1">Nossos valores</h2>
+        </div>
+        <div class="values-grid">
+          <div class="value-card reveal reveal-delay-1">
+            <div class="value-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8Z"/><path d="M12 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg></div>
+            <h3 class="value-title">Cultivado com cuidado</h3>
+            <p class="value-desc">Cada muda passa por um processo de cultivo artesanal, com atenção individual, solo de qualidade e monitoramento constante da saúde.</p>
+          </div>
+          <div class="value-card reveal reveal-delay-2">
+            <div class="value-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+            <h3 class="value-title">Entrega com carinho</h3>
+            <p class="value-desc">Nossas plantas chegam embaladas com cuidado e acompanhadas de orientações de cultivo personalizadas para cada espécie.</p>
+          </div>
+          <div class="value-card reveal reveal-delay-3">
+            <div class="value-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <h3 class="value-title">Relacionamento real</h3>
+            <p class="value-desc">Somos pessoas falando com pessoas. Cada atendimento é personalizado e honesto — indicamos a planta certa para cada espaço.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Galeria -->
+    <section style="padding:6rem 0">
+      <div class="container">
+        <span class="section-tag reveal">Nosso viveiro</span>
+        <h2 class="section-title reveal reveal-delay-1" style="margin-bottom:3rem">Por dentro da Casa das Mudas</h2>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem" class="reveal reveal-delay-2">
+          <div style="display:grid;gap:1rem">
+            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?fm=jpg&q=80&w=900&auto=format&fit=crop" alt="Viveiro com mudas" style="width:100%;border-radius:1rem;aspect-ratio:4/3;object-fit:cover" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?fm=jpg&q=80&w=900&auto=format&fit=crop" alt="Plantio de mudas" style="width:100%;border-radius:1rem;aspect-ratio:4/3;object-fit:cover" loading="lazy">
+          </div>
+          <div style="display:grid;gap:1rem">
+            <img src="https://images.unsplash.com/photo-1620127807580-990c3eceChronicles?fm=jpg&q=80&w=900&auto=format&fit=crop" alt="Plantas em estufa" style="width:100%;border-radius:1rem;aspect-ratio:4/3;object-fit:cover" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?fm=jpg&q=80&w=900&auto=format&fit=crop'">
+            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?fm=jpg&q=80&w=900&auto=format&fit=crop" alt="Vasos de plantas" style="width:100%;border-radius:1rem;aspect-ratio:4/3;object-fit:cover" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-banner">
+      <div class="container">
+        <h2 class="cta-banner-title reveal">Venha fazer parte da nossa história</h2>
+        <p class="cta-banner-desc reveal reveal-delay-1">Cada muda que sai daqui carrega um pedaço do nosso cuidado. Entre em contato e encontre a planta certa para você.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center" class="reveal reveal-delay-2">
+          <a href="mudas.html" class="btn-cta-inv">Ver as mudas</a>
+          <a href="contato.html" style="display:inline-flex;align-items:center;gap:.5rem;color:#F6F2E8;font-weight:600;font-size:1rem;border:1.5px solid rgba(246,242,232,0.4);padding:.875rem 1.75rem;border-radius:9999px;text-decoration:none;transition:border-color .25s" onmouseover="this.style.borderColor='rgba(246,242,232,0.9)'" onmouseout="this.style.borderColor='rgba(246,242,232,0.4)'">Fale conosco</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="container"><div class="footer-grid">
+    <div><div class="footer-brand-name">Casa das Mudas</div><p class="footer-brand-desc">Cultivo com raiz, entrega com cuidado. Mudas saudáveis para casas em Tupã, SP e região.</p></div>
+    <div><h4 class="footer-col-title">Páginas</h4><ul class="footer-links"><li><a href="index.html">Início</a></li><li><a href="mudas.html">Mudas</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="contato.html">Contato</a></li></ul></div>
+    <div><h4 class="footer-col-title">Contato</h4><div class="footer-contact-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="flex-shrink:0;margin-top:2px"><path d="M12 21c-4.4-4.3-8-7.9-8-11a8 8 0 0 1 16 0c0 3.1-3.6 6.7-8 11Z"/><circle cx="12" cy="10" r="2"/></svg>Tupã, SP</div><div class="footer-contact-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="flex-shrink:0;margin-top:2px"><path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 3.1 5.2 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.4 2L9 10.9a16 16 0 0 0 6.1 6.1l1.4-1.4a2 2 0 0 1 2-.5c.9.3 1.8.6 2.8.7A2 2 0 0 1 22 17Z"/></svg>(14) 99999-0000</div><div class="footer-contact-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="flex-shrink:0;margin-top:2px"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>contato@casadasmudas.com.br</div></div>
+    <div><h4 class="footer-col-title">Redes</h4><div class="social-links"><a href="#" aria-label="Instagram" class="social-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#" aria-label="WhatsApp" class="social-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z"/></svg></a></div></div>
+  </div><div class="footer-bottom"><p class="footer-copy">&copy; 2025 Casa das Mudas. Todos os direitos reservados.</p><p class="footer-copy">Feito com 🌿 em Tupã, SP</p></div></div></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"><svg class="toast-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10Z"/><path d="m9 12 2 2 4-4"/></svg><span class="toast-msg"></span></div>
+  <script src="main.js"></script>
+  </body></html>
