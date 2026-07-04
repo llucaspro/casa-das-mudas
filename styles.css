@@ -8,6 +8,8 @@
     --font-sans:'Inter',system-ui,sans-serif;
     --font-mono:'IBM Plex Mono',monospace;
   }
+  @font-face{font-family:'Bricolage Grotesque';font-display:swap}
+  @font-face{font-family:'Inter';font-display:swap}
   html{scroll-behavior:smooth}
   body{background:var(--cream);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
   img{display:block;max-width:100%}
@@ -19,7 +21,7 @@
     position:fixed;inset:0;z-index:9999;
     background:#14261A;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;
-    animation:introOut 0.7s cubic-bezier(.76,0,.24,1) 2.4s both;
+    animation:introOut 1s cubic-bezier(.76,0,.24,1) 3.8s both;
     pointer-events:none;
   }
   @keyframes introOut{
@@ -288,23 +290,23 @@
     width:58px;height:58px;border-radius:50%;
     background:#25D366;
     display:flex;align-items:center;justify-content:center;
-    box-shadow:0 4px 18px rgba(37,211,102,.55);
+    box-shadow:0 4px 18px rgba(37,211,102,.5);
     text-decoration:none;
-    animation:waIn 0.5s cubic-bezier(.34,1.56,.64,1) 2.8s both;
+    animation:waIn 0.5s cubic-bezier(.34,1.56,.64,1) 4.5s both;
     transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
   }
   .wa-float:hover{transform:scale(1.12);box-shadow:0 8px 28px rgba(37,211,102,.7)}
   @keyframes waIn{from{opacity:0;transform:scale(0.4)}to{opacity:1;transform:scale(1)}}
-  .wa-pulse{
-    position:absolute;inset:0;border-radius:50%;
-    background:#25D366;
-    animation:waPulse 2.2s ease-out 3.4s infinite;
+  .wa-float::after{
+    content:'';position:absolute;inset:0;border-radius:50%;
+    background:rgba(37,211,102,.5);
+    animation:waPulse 2.4s ease-out 5.2s infinite;
     z-index:-1;
   }
-  @keyframes waPulse{0%{transform:scale(1);opacity:.6}70%{transform:scale(1.65);opacity:0}100%{transform:scale(1.65);opacity:0}}
-  @media(prefers-reduced-motion:reduce){.wa-float{animation:none}.wa-pulse{animation:none}}
+  @keyframes waPulse{0%{transform:scale(1);opacity:.7}70%{transform:scale(1.7);opacity:0}100%{transform:scale(1.7);opacity:0}}
+  @media(prefers-reduced-motion:reduce){.wa-float{animation:none}.wa-float::after{animation:none}}
 
-/* ========== UTILITY ========== */
+  /* ========== UTILITY ========== */
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
   .text-leaf{color:var(--leaf)}
   
