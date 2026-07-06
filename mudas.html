@@ -148,9 +148,9 @@
   function buildFilters(cats){
     if(!filterBtnsWrap) return;
     filterBtnsWrap.innerHTML =
-      '<button class="filter-btn active" data-filter="todas" onclick="cdmFilter('todas')">Todas</button>'+
+      '<button class="filter-btn active" data-filter="todas" onclick="cdmFilter(\'todas\')">Todas</button>'+
       cats.map(function(c){
-        return '<button class="filter-btn" data-filter="'+c.id+'" onclick="cdmFilter(''+c.id+'')">'+c.name+'</button>';
+        return '<button class="filter-btn" data-filter="'+c.id+'" onclick="cdmFilter(\''+c.id+'\')">'+c.name+'</button>';
       }).join('');
   }
 
