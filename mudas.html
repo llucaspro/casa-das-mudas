@@ -122,7 +122,8 @@
       return;
     }
     grid.innerHTML = active.map(function(p,i){return cardHTML(p,i);}).join('');
-    if(window.cdmReveal) window.cdmReveal();
+    // Make cards visible (reveal class starts at opacity:0)
+    grid.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
     grid.querySelectorAll('.card-add').forEach(function(btn){
       btn.addEventListener('click',function(){
         if(window.cdmAddToCart) window.cdmAddToCart(btn.dataset.name, btn.dataset.price);
