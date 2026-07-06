@@ -158,6 +158,8 @@
         '<button class="add-btn card-add" data-name="'+escape(p.name)+'" data-price="'+p.price+'">Comprar</button>'+
         '</div></div></article>';
     }).join('');
+    // Make cards visible (reveal class starts at opacity:0)
+    grid.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
     grid.querySelectorAll('.card-add').forEach(function(btn){
       btn.addEventListener('click',function(){
         if(window.cdmAddToCart) window.cdmAddToCart(btn.dataset.name, btn.dataset.price);
