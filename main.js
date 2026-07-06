@@ -179,9 +179,21 @@
           catalogCards.forEach(function(card){
             var match = cat === 'todas' || card.dataset.cat === cat;
             card.style.transition = 'opacity .35s, transform .35s';
-            card.style.opacity    = match ? '1' : '0';
-            card.style.transform  = match ? '' : 'scale(.93)';
-            card.style.pointerEvents = match ? '' : 'none';
+            if (match) {
+              card.style.display = '';
+              card.style.pointerEvents = '';
+              requestAnimationFrame(function(){
+                card.style.opacity   = '1';
+                card.style.transform = '';
+              });
+            } else {
+              card.style.opacity    = '0';
+              card.style.transform  = 'scale(.93)';
+              card.style.pointerEvents = 'none';
+              setTimeout(function(){
+                if (card.style.opacity === '0') card.style.display = 'none';
+              }, 350);
+            }
           });
         });
       });
