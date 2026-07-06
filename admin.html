@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Casa das Mudas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#12733D;--green-dark:#0d5a30;--green-light:#e8f5ee;--green-mid:#1a8a4a;
+  --bg:#f6f2e8;--surface:#fff;--surface2:#f9f7f2;
+  --text:#14261a;--muted:#5a7060;--border:#dde8e0;
+  --red:#c0392b;--red-bg:#fef2f2;--yellow:#b7791f;--yellow-bg:#fffbeb;
+  --radius:12px;--shadow:0 2px 12px rgba(18,115,61,.10);
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+input,select,textarea{font-family:inherit}
+
+/* ── LOGIN ── */
+#login{display:flex;min-height:100vh}
+.login-left{background:var(--green-dark);color:#fff;width:380px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;text-align:center}
+.login-left img{width:80px;height:80px;border-radius:16px;object-fit:cover;margin-bottom:1.5rem;box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.login-left h1{font-family:'Bricolage Grotesque',sans-serif;font-size:2rem;font-weight:800;line-height:1.1;margin-bottom:.5rem}
+.login-left p{opacity:.65;font-size:.9rem;line-height:1.6}
+.login-right{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem}
+.login-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:2.5rem;width:100%;max-width:420px}
+.login-card h2{font-family:'Bricolage Grotesque',sans-serif;font-size:1.6rem;font-weight:700;margin-bottom:.4rem}
+.login-card p{color:var(--muted);font-size:.9rem;margin-bottom:1.75rem}
+.field{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.25rem}
+.field label{font-size:.825rem;font-weight:600;color:var(--text)}
+.field input,.field select,.field textarea{border:1.5px solid var(--border);border-radius:8px;padding:.65rem .875rem;font-size:.9rem;color:var(--text);background:#fff;transition:border-color .2s,box-shadow .2s;width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(18,115,61,.12)}
+.field textarea{resize:vertical;min-height:80px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:none;border-radius:8px;padding:.7rem 1.25rem;font-size:.9rem;font-weight:600;transition:all .2s;cursor:pointer}
+.btn-primary{background:var(--green);color:#fff}.btn-primary:hover{background:var(--green-mid)}
+.btn-secondary{background:var(--green-light);color:var(--green)}.btn-secondary:hover{background:#d4eddc}
+.btn-danger{background:var(--red-bg);color:var(--red)}.btn-danger:hover{background:#fde8e8}
+.btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--border)}.btn-ghost:hover{border-color:var(--green);color:var(--green)}
+.btn-sm{padding:.4rem .875rem;font-size:.8rem}
+.btn-block{width:100%}
+.login-tip{font-size:.75rem;color:var(--muted);margin-top:.75rem;text-align:center}
+.login-tip a{color:var(--green);font-weight:500}
+
+/* ── LAYOUT ── */
+#app{display:flex;min-height:100vh;display:none}
+.sidebar{width:240px;background:var(--green-dark);color:#fff;display:flex;flex-direction:column;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-logo{padding:1.5rem 1.25rem 1rem;display:flex;align-items:center;gap:.75rem;border-bottom:1px solid rgba(255,255,255,.1)}
+.sidebar-logo img{width:36px;height:36px;border-radius:8px;object-fit:cover}
+.sidebar-logo span{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1rem}
+.sidebar-nav{flex:1;padding:1rem .75rem}
+.nav-item{display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:8px;font-size:.9rem;font-weight:500;cursor:pointer;transition:all .2s;color:rgba(255,255,255,.75);margin-bottom:.25rem;border:none;background:none;width:100%;text-align:left}
+.nav-item svg{flex-shrink:0;opacity:.8}
+.nav-item:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav-item.active{background:rgba(255,255,255,.18);color:#fff;font-weight:600}
+.sidebar-footer{padding:1rem .75rem;border-top:1px solid rgba(255,255,255,.1)}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:.875rem 1.75rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.2rem}
+.content{flex:1;padding:1.75rem;overflow-y:auto}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.75rem}
+.stat-card{background:var(--surface);border-radius:var(--radius);padding:1.25rem 1.5rem;border:1px solid var(--border)}
+.stat-card .label{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.4rem}
+.stat-card .value{font-family:'Bricolage Grotesque',sans-serif;font-size:2rem;font-weight:800;color:var(--green)}
+.stat-card .sub{font-size:.75rem;color:var(--muted);margin-top:.25rem}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.toolbar .search{flex:1;min-width:200px;position:relative}
+.toolbar .search input{width:100%;padding:.6rem .875rem .6rem 2.25rem;border:1.5px solid var(--border);border-radius:8px;font-size:.875rem;background:#fff}
+.toolbar .search input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(18,115,61,.1)}
+.toolbar .search svg{position:absolute;left:.7rem;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.4}
+.select-filter{border:1.5px solid var(--border);border-radius:8px;padding:.6rem .875rem;font-size:.875rem;background:#fff;color:var(--text);cursor:pointer}
+.select-filter:focus{outline:none;border-color:var(--green)}
+
+/* ── TABLE ── */
+.table-wrap{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead th{background:var(--surface2);padding:.75rem 1rem;text-align:left;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--surface2)}
+td{padding:.75rem 1rem;font-size:.875rem;vertical-align:middle}
+.cell-img{width:52px;height:52px;border-radius:8px;object-fit:cover}
+.cell-img-placeholder{width:52px;height:52px;border-radius:8px;background:var(--green-light);display:flex;align-items:center;justify-content:center}
+.badge{display:inline-flex;align-items:center;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:600}
+.badge-popular{background:#e8f5ee;color:#12733D}
+.badge-destaque{background:#fff3e0;color:#b45309}
+.badge-new{background:#eff6ff;color:#1d4ed8}
+.badge-other{background:var(--green-light);color:var(--green)}
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:.4rem}
+.status-dot.on{background:#16a34a}
+.status-dot.off{background:#dc2626}
+.stock-edit{border:none;background:transparent;font-family:inherit;font-size:.875rem;font-weight:600;width:52px;text-align:center;border-radius:6px;padding:.2rem;cursor:text}
+.stock-edit:hover,.stock-edit:focus{background:var(--green-light);outline:none}
+.stock-low{color:var(--yellow)}
+.stock-out{color:var(--red)}
+.actions{display:flex;gap:.5rem;justify-content:flex-end}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:flex-start;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);width:100%;max-width:560px;height:100vh;overflow-y:auto;padding:2rem;transform:translateX(100%);transition:transform .3s;box-shadow:-4px 0 24px rgba(0,0,0,.15)}
+.modal-overlay.open .modal{transform:translateX(0)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem}
+.modal-header h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.3rem;font-weight:700}
+.modal-close{background:none;border:none;cursor:pointer;color:var(--muted);display:flex;padding:.25rem;border-radius:6px}
+.modal-close:hover{background:var(--border);color:var(--text)}
+
+/* ── IMAGE UPLOAD ── */
+.img-upload-area{border:2px dashed var(--border);border-radius:var(--radius);padding:1.5rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1rem;position:relative;overflow:hidden}
+.img-upload-area:hover,.img-upload-area.drag{border-color:var(--green);background:var(--green-light)}
+.img-upload-area img{max-width:100%;max-height:200px;border-radius:8px;object-fit:contain}
+.img-upload-area .placeholder{display:flex;flex-direction:column;align-items:center;gap:.75rem;color:var(--muted)}
+.img-upload-area .placeholder svg{opacity:.4}
+.img-upload-area .placeholder strong{color:var(--green);font-size:.875rem}
+.img-upload-area .placeholder span{font-size:.8rem}
+.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.img-url-toggle{font-size:.8rem;color:var(--green);cursor:pointer;text-decoration:underline;display:block;margin-top:.25rem;background:none;border:none;font-family:inherit}
+
+/* ── CONFIRM DIALOG ── */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.confirm-overlay.open{opacity:1;pointer-events:all}
+.confirm-box{background:var(--surface);border-radius:var(--radius);padding:2rem;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.confirm-box h4{font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
+.confirm-box p{color:var(--muted);font-size:.875rem;margin-bottom:1.5rem}
+.confirm-actions{display:flex;gap:.75rem;justify-content:flex-end}
+
+/* ── TOAST ── */
+.toast-stack{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
+.toast-item{background:var(--text);color:#fff;border-radius:8px;padding:.75rem 1.125rem;font-size:.875rem;display:flex;align-items:center;gap:.6rem;box-shadow:0 4px 20px rgba(0,0,0,.25);animation:toastIn .3s ease;pointer-events:all}
+.toast-item.success{background:var(--green-dark)}
+.toast-item.error{background:var(--red)}
+@keyframes toastIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:3rem;color:var(--muted)}
+.empty svg{opacity:.25;margin-bottom:1rem}
+.empty h3{font-size:1rem;font-weight:600;margin-bottom:.25rem;color:var(--text)}
+
+/* ── CATEGORIES ── */
+.cat-list{display:flex;flex-direction:column;gap:.5rem;max-width:500px}
+.cat-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem}
+.cat-item span{flex:1;font-size:.9rem;font-weight:500}
+.cat-id{font-size:.75rem;color:var(--muted);font-family:monospace;background:var(--surface2);padding:.15rem .4rem;border-radius:4px}
+.cat-add{display:flex;gap:.75rem;margin-top:1rem;max-width:500px}
+.cat-add input{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:.65rem .875rem;font-size:.875rem;font-family:inherit}
+.cat-add input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(18,115,61,.1)}
+
+/* ── SAVING INDICATOR ── */
+.saving{position:fixed;top:1rem;right:1rem;background:var(--green-dark);color:#fff;border-radius:8px;padding:.6rem 1.1rem;font-size:.825rem;display:none;align-items:center;gap:.5rem;z-index:400}
+.saving.show{display:flex}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+
+@media(max-width:700px){
+  .login-left{display:none}
+  .sidebar{position:fixed;left:-240px;top:0;z-index:50;transition:left .3s}
+  .sidebar.open{left:0}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  table thead{display:none}
+  td{display:block;padding:.4rem 1rem}
+  td:first-child{padding-top:.8rem}
+  td:last-child{padding-bottom:.8rem}
+  td::before{content:attr(data-label)': ';font-weight:600;font-size:.75rem;color:var(--muted);display:block}
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login">
+  <div class="login-left">
+    <img src="logo.jpg" alt="Casa das Mudas">
+    <h1>Casa das Mudas</h1>
+    <p>Painel administrativo<br>Acesso restrito</p>
+  </div>
+  <div class="login-right">
+    <div class="login-card">
+      <h2>Bem-vindo</h2>
+      <p>Digite seu token do GitHub para acessar o painel.</p>
+      <div class="field">
+        <label for="tokenInput">GitHub Personal Access Token</label>
+        <input type="password" id="tokenInput" placeholder="ghp_..." autocomplete="off">
+      </div>
+      <button class="btn btn-primary btn-block" onclick="doLogin()">Entrar no painel</button>
+      <p class="login-tip">
+        Não tem um token? <a href="https://github.com/settings/tokens/new?scopes=repo&description=Casa+das+Mudas+Admin" target="_blank">Criar token no GitHub</a><br>
+        (marque a permissão <strong>repo</strong>)
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ── APP ── -->
+<div id="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.jpg" alt="Logo">
+      <span>Casa Admin</span>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" id="nav-produtos" onclick="showView('produtos')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Produtos
+      </button>
+      <button class="nav-item" id="nav-categorias" onclick="showView('categorias')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Categorias
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="nav-item" onclick="doLogout()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sair
+      </button>
+    </div>
+  </aside>
+  <div class="main">
+    <div class="topbar">
+      <span class="topbar-title" id="topbar-title">Produtos</span>
+      <div style="display:flex;gap:.75rem;align-items:center">
+        <a href="index.html" target="_blank" class="btn btn-ghost btn-sm">Ver site</a>
+      </div>
+    </div>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Produto</h3>
+      <button class="modal-close" onclick="closeModal()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ── CONFIRM ── -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h4 id="confirmTitle">Confirmar</h4>
+    <p id="confirmMsg"></p>
+    <div class="confirm-actions">
+      <button class="btn btn-ghost" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn btn-danger" id="confirmOk">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SAVING ── -->
+<div class="saving" id="saving"><div class="spinner"></div> Salvando no GitHub…</div>
+
+<!-- ── TOASTS ── -->
+<div class="toast-stack" id="toastStack"></div>
+
+<script>
+const OWNER = 'llucaspro';
+const REPO  = 'casa-das-mudas';
+const BRANCH= 'main';
+const RAW   = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}`;
+
+let TOKEN = '';
+let products = [];
+let categories = [
+  {id:'sementes-frutas', name:'Sementes de Frutas'},
+  {id:'sementes-nativas', name:'Sementes Nativas'},
+  {id:'mudas-frutas', name:'Mudas de Frutas'},
+  {id:'mudas-nativas', name:'Mudas Nativas'}
+];
+
+// ── GITHUB API ──
+async function ghGet(path){
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,{
+    headers:{Authorization:`token ${TOKEN}`,Accept:'application/vnd.github.v3+json'}
+  });
+  if(!r.ok) return null;
+  return r.json();
+}
+async function ghPut(path, content, message, sha){
+  const body = {message, content:btoa(unescape(encodeURIComponent(content))), branch:BRANCH};
+  if(sha) body.sha = sha;
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,{
+    method:'PUT',
+    headers:{Authorization:`token ${TOKEN}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  });
+  return r.ok;
+}
+async function ghPutBinary(path, base64Content, message, sha){
+  const body = {message, content:base64Content, branch:BRANCH};
+  if(sha) body.sha = sha;
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,{
+    method:'PUT',
+    headers:{Authorization:`token ${TOKEN}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  });
+  return r.ok;
+}
+async function ghDelete(path, sha, message){
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,{
+    method:'DELETE',
+    headers:{Authorization:`token ${TOKEN}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
+    body:JSON.stringify({message, sha, branch:BRANCH})
+  });
+  return r.ok;
+}
+
+// ── AUTH ──
+async function doLogin(){
+  const val = document.getElementById('tokenInput').value.trim();
+  if(!val){toast('Cole seu token do GitHub','error');return;}
+  TOKEN = val;
+  // validate
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}`,{
+    headers:{Authorization:`token ${TOKEN}`}
+  });
+  if(!r.ok){toast('Token inválido ou sem acesso ao repositório','error');TOKEN='';return;}
+  sessionStorage.setItem('cdm_token', TOKEN);
+  startApp();
+}
+function doLogout(){
+  sessionStorage.removeItem('cdm_token');
+  TOKEN = '';
+  document.getElementById('login').style.display='flex';
+  document.getElementById('app').style.display='none';
+}
+async function startApp(){
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='flex';
+  await loadData();
+  showView('produtos');
+}
+
+// ── DATA ──
+async function loadData(){
+  const file = await ghGet('products.json');
+  if(file) products = JSON.parse(atob(file.content.replace(/\s/g,'')));
+  const catFile = await ghGet('categories.json');
+  if(catFile) categories = JSON.parse(atob(catFile.content.replace(/\s/g,'')));
+}
+async function saveProducts(){
+  showSaving(true);
+  const sha = (await ghGet('products.json'))?.sha;
+  const ok = await ghPut('products.json', JSON.stringify(products,null,2),
+    `Atualiza products.json — ${new Date().toLocaleString('pt-BR')}`, sha);
+  showSaving(false);
+  if(ok) toast('Produtos salvos no GitHub! O site atualiza em ~1 min','success');
+  else toast('Erro ao salvar no GitHub','error');
+  return ok;
+}
+async function saveCategories(){
+  showSaving(true);
+  const sha = (await ghGet('categories.json'))?.sha;
+  const ok = await ghPut('categories.json', JSON.stringify(categories,null,2),
+    `Atualiza categories.json`, sha);
+  showSaving(false);
+  if(ok) toast('Categorias salvas!','success');
+  else toast('Erro ao salvar','error');
+}
+
+// ── VIEWS ──
+function showView(view){
+  ['produtos','categorias'].forEach(v=>{
+    document.getElementById('nav-'+v)?.classList.toggle('active',v===view);
+  });
+  document.getElementById('topbar-title').textContent =
+    view==='produtos'?'Produtos':view==='categorias'?'Categorias':'Admin';
+  const c = document.getElementById('content');
+  if(view==='produtos') renderProducts(c);
+  else if(view==='categorias') renderCategories(c);
+}
+
+// ── PRODUCTS VIEW ──
+function renderProducts(container){
+  const total = products.length;
+  const active = products.filter(p=>p.active).length;
+  const sem_estoque = products.filter(p=>p.stock===0).length;
+  const baixo = products.filter(p=>p.stock>0&&p.stock<=5).length;
+
+  container.innerHTML = `
+  <div class="stats-grid">
+    <div class="stat-card"><div class="label">Total de produtos</div><div class="value">${total}</div></div>
+    <div class="stat-card"><div class="label">Ativos</div><div class="value" style="color:var(--green)">${active}</div></div>
+    <div class="stat-card"><div class="label">Estoque baixo (&le;5)</div><div class="value" style="color:var(--yellow)">${baixo}</div></div>
+    <div class="stat-card"><div class="label">Sem estoque</div><div class="value" style="color:var(--red)">${sem_estoque}</div></div>
+  </div>
+  <div class="toolbar">
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" placeholder="Buscar produto…" oninput="filterProducts(this.value)" id="searchInput">
+    </div>
+    <select class="select-filter" id="catFilter" onchange="filterProducts()">
+      <option value="">Todas as categorias</option>
+      ${categories.map(c=>`<option value="${c.id}">${c.name}</option>`).join('')}
+    </select>
+    <button class="btn btn-primary" onclick="openProductModal(null)">+ Adicionar produto</button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th style="width:60px">Foto</th>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>Preço</th>
+        <th>Estoque</th>
+        <th>Badge</th>
+        <th>Status</th>
+        <th style="text-align:right">Ações</th>
+      </tr></thead>
+      <tbody id="productsBody"></tbody>
+    </table>
+  </div>`;
+  renderProductsTable(products);
+}
+
+function filterProducts(search){
+  const q = (search??document.getElementById('searchInput')?.value??'').toLowerCase();
+  const cat = document.getElementById('catFilter')?.value??'';
+  const filtered = products.filter(p=>{
+    const matchName = p.name.toLowerCase().includes(q)||p.sci.toLowerCase().includes(q);
+    const matchCat = !cat||p.category===cat;
+    return matchName&&matchCat;
+  });
+  renderProductsTable(filtered);
+}
+
+function renderProductsTable(list){
+  const tbody = document.getElementById('productsBody');
+  if(!tbody) return;
+  if(!list.length){
+    tbody.innerHTML=`<tr><td colspan="8"><div class="empty"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg><h3>Nenhum produto encontrado</h3></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = list.map(p=>{
+    const catName = categories.find(c=>c.id===p.category)?.name||p.category;
+    const stockClass = p.stock===0?'stock-out':p.stock<=5?'stock-low':'';
+    const badge = p.badge?`<span class="badge ${badgeClass(p.badge)}">${p.badge}</span>`:'<span style="color:var(--muted);font-size:.8rem">—</span>';
+    return `<tr>
+      <td data-label="Foto">${p.img?`<img class="cell-img" src="${p.img}" alt="${p.name}" loading="lazy">`:'<div class="cell-img-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div>'}</td>
+      <td data-label="Nome"><div style="font-weight:600;font-size:.875rem">${p.name}</div><div style="font-size:.775rem;color:var(--muted);font-style:italic">${p.sci}</div></td>
+      <td data-label="Categoria"><span style="font-size:.8rem;color:var(--muted)">${catName}</span></td>
+      <td data-label="Preço"><strong>R$ ${Number(p.price).toFixed(2).replace('.',',')}</strong></td>
+      <td data-label="Estoque"><input class="stock-edit ${stockClass}" type="number" min="0" value="${p.stock}" onchange="updateStock(${p.id},this.value)" onblur="updateStock(${p.id},this.value)" title="Clique para editar"></td>
+      <td data-label="Badge">${badge}</td>
+      <td data-label="Status"><span class="status-dot ${p.active?'on':'off'}"></span>${p.active?'Ativo':'Inativo'}</td>
+      <td data-label="Ações"><div class="actions">
+        <button class="btn btn-secondary btn-sm" onclick="openProductModal(${p.id})">Editar</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete(${p.id})">Excluir</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+function badgeClass(b){
+  if(!b) return '';
+  const l = b.toLowerCase();
+  if(l==='popular') return 'badge-popular';
+  if(l==='destaque') return 'badge-destaque';
+  if(l==='novo'||l==='new') return 'badge-new';
+  return 'badge-other';
+}
+
+async function updateStock(id, val){
+  const p = products.find(p=>p.id===id);
+  if(!p) return;
+  const n = parseInt(val,10);
+  if(isNaN(n)||n<0) return;
+  p.stock = n;
+  await saveProducts();
+  renderProductsTable(products);
+}
+
+// ── PRODUCT MODAL ──
+function openProductModal(id){
+  const p = id!=null ? products.find(x=>x.id===id) : null;
+  document.getElementById('modalTitle').textContent = p?'Editar Produto':'Adicionar Produto';
+  const catOptions = categories.map(c=>`<option value="${c.id}" ${p?.category===c.id?'selected':''}>${c.name}</option>`).join('');
+
+  document.getElementById('modalBody').innerHTML = `
+  <div class="img-upload-area" id="imgArea" onclick="triggerImgPick()" title="Clique ou arraste uma foto">
+    ${p?.img?`<img src="${p.img}" alt="Imagem atual" id="imgPreview">`:'<div class="placeholder"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><strong>Clique para fazer upload da foto</strong><span>ou arraste e solte aqui</span><span style="font-size:.75rem">JPG, PNG, WEBP até 5 MB</span></div>'}
+    <input type="file" id="imgFile" accept="image/*" onchange="handleImgFile(this)" onclick="event.stopPropagation()">
+  </div>
+  <button class="img-url-toggle" onclick="toggleImgUrl()">Ou cole um link de imagem</button>
+  <div id="imgUrlWrap" style="display:none;margin-bottom:1rem">
+    <div class="field"><label>URL da imagem</label><input type="url" id="imgUrl" value="${p?.img||''}" placeholder="https://..." oninput="previewImgUrl(this.value)"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+    <div class="field" style="grid-column:1/-1"><label>Nome do produto *</label><input type="text" id="fName" value="${p?.name||''}" placeholder="Ex: Sementes de Pitanga" required></div>
+    <div class="field" style="grid-column:1/-1"><label>Nome científico *</label><input type="text" id="fSci" value="${p?.sci||''}" placeholder="Ex: Eugenia uniflora"></div>
+    <div class="field"><label>Preço (R$) *</label><input type="number" id="fPrice" value="${p?.price||''}" min="0" step="0.01" placeholder="0,00"></div>
+    <div class="field"><label>Estoque *</label><input type="number" id="fStock" value="${p?.stock??10}" min="0"></div>
+    <div class="field"><label>Categoria *</label><select id="fCat">${catOptions}</select></div>
+    <div class="field"><label>Badge (destaque)</label><select id="fBadge">
+      <option value="" ${!p?.badge?'selected':''}>Nenhum</option>
+      <option value="Popular" ${p?.badge==='Popular'?'selected':''}>Popular</option>
+      <option value="Destaque" ${p?.badge==='Destaque'?'selected':''}>Destaque</option>
+      <option value="Novo" ${p?.badge==='Novo'?'selected':''}>Novo</option>
+      <option value="Promoção" ${p?.badge==='Promoção'?'selected':''}>Promoção</option>
+      <option value="Ameaçada de extinção" ${p?.badge==='Ameaçada de extinção'?'selected':''}>Ameaçada de extinção</option>
+    </select></div>
+    <div class="field" style="grid-column:1/-1"><label>Descrição</label><textarea id="fDesc" placeholder="Descreva o produto…" rows="3">${p?.desc||''}</textarea></div>
+    <div class="field" style="grid-column:1/-1;flex-direction:row;align-items:center;gap:.75rem">
+      <input type="checkbox" id="fActive" ${p===null||p?.active?'checked':''} style="width:18px;height:18px;cursor:pointer;accent-color:var(--green)">
+      <label for="fActive" style="cursor:pointer;font-weight:500">Produto ativo (visível no site)</label>
+    </div>
+  </div>
+  <div style="display:flex;gap:.75rem;margin-top:1.5rem">
+    <button class="btn btn-primary" style="flex:1" onclick="saveProductModal(${id??'null'})">Salvar produto</button>
+    <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+  </div>`;
+
+  // drag & drop
+  const area = document.getElementById('imgArea');
+  area.addEventListener('dragover',e=>{e.preventDefault();area.classList.add('drag')});
+  area.addEventListener('dragleave',()=>area.classList.remove('drag'));
+  area.addEventListener('drop',e=>{e.preventDefault();area.classList.remove('drag');const f=e.dataTransfer.files[0];if(f)handleImgFileObj(f);});
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function toggleImgUrl(){
+  const w = document.getElementById('imgUrlWrap');
+  w.style.display = w.style.display==='none'?'block':'none';
+}
+function previewImgUrl(url){
+  if(!url) return;
+  let p = document.getElementById('imgPreview');
+  if(!p){
+    document.getElementById('imgArea').innerHTML = `<img src="${url}" alt="Preview" id="imgPreview" style="max-height:200px;object-fit:contain;border-radius:8px"><input type="file" id="imgFile" accept="image/*" onchange="handleImgFile(this)" onclick="event.stopPropagation()" style="position:absolute;inset:0;opacity:0;cursor:pointer">`;
+  } else { p.src = url; }
+}
+function triggerImgPick(){ document.getElementById('imgFile')?.click(); }
+function handleImgFile(input){ if(input.files[0]) handleImgFileObj(input.files[0]); }
+function handleImgFileObj(file){
+  const reader = new FileReader();
+  reader.onload = e => {
+    previewImgUrl(e.target.result);
+    document.getElementById('imgArea').dataset.pendingFile = '1';
+    document.getElementById('imgArea').dataset.pendingName = file.name;
+    // store base64 for upload
+    window._pendingImgBase64 = e.target.result.split(',')[1];
+    window._pendingImgName = file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function saveProductModal(id){
+  const name = document.getElementById('fName').value.trim();
+  const sci = document.getElementById('fSci').value.trim();
+  const price = parseFloat(document.getElementById('fPrice').value);
+  const stock = parseInt(document.getElementById('fStock').value,10);
+  const cat = document.getElementById('fCat').value;
+  const badge = document.getElementById('fBadge').value;
+  const desc = document.getElementById('fDesc').value.trim();
+  const active = document.getElementById('fActive').checked;
+  let img = document.getElementById('imgUrl')?.value.trim()||'';
+
+  if(!name||!sci||isNaN(price)||isNaN(stock)||!cat){
+    toast('Preencha todos os campos obrigatórios (*)','error'); return;
+  }
+
+  let productId = id;
+  if(productId===null){
+    productId = products.length ? Math.max(...products.map(p=>p.id))+1 : 1;
+  }
+
+  // Upload image if a file was selected
+  if(window._pendingImgBase64){
+    showSaving(true);
+    const ext = (window._pendingImgName||'foto.jpg').split('.').pop();
+    const fname = `img_${productId}_${Date.now()}.${ext}`;
+    const ghPath = `images/produtos/${fname}`;
+    const existing = await ghGet(ghPath);
+    const ok = await ghPutBinary(ghPath, window._pendingImgBase64,
+      `Upload imagem produto #${productId}`, existing?.sha);
+    showSaving(false);
+    if(ok){
+      img = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${ghPath}`;
+      toast('Foto enviada para o GitHub!','success');
+    } else {
+      toast('Erro ao fazer upload da foto','error');
+    }
+    window._pendingImgBase64 = null; window._pendingImgName = null;
+  } else if(!img){
+    // keep existing
+    const existing = products.find(p=>p.id===productId);
+    img = existing?.img||'';
+  }
+
+  const product = {id:productId, name, sci, price, stock, category:cat, badge, img, desc, active};
+
+  if(id===null){
+    products.push(product);
+  } else {
+    const idx = products.findIndex(p=>p.id===id);
+    if(idx!==-1) products[idx] = product;
+  }
+
+  const ok = await saveProducts();
+  if(ok){
+    closeModal();
+    showView('produtos');
+    toast(id===null?'Produto adicionado com sucesso!':'Produto atualizado!','success');
+  }
+}
+
+// ── DELETE ──
+function confirmDelete(id){
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('confirmTitle').textContent = 'Excluir produto';
+  document.getElementById('confirmMsg').textContent = `Tem certeza que deseja excluir "${p.name}"? Esta ação não pode ser desfeita.`;
+  document.getElementById('confirmOk').onclick = ()=>deleteProduct(id);
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+function closeConfirm(){ document.getElementById('confirmOverlay').classList.remove('open'); }
+async function deleteProduct(id){
+  closeConfirm();
+  const p = products.find(x=>x.id===id);
+  if(p?.img&&p.img.includes('raw.githubusercontent.com')){
+    const path = p.img.replace(`${RAW}/`,'');
+    const existing = await ghGet(path);
+    if(existing?.sha) await ghDelete(path, existing.sha, `Remove imagem ${p.name}`);
+  }
+  products = products.filter(p=>p.id!==id);
+  await saveProducts();
+  showView('produtos');
+  toast('Produto excluído','success');
+}
+
+// ── CATEGORIES ──
+function renderCategories(container){
+  container.innerHTML = `
+  <div style="max-width:600px">
+    <p style="color:var(--muted);font-size:.9rem;margin-bottom:1.5rem">As categorias são usadas para filtrar os produtos no site. O <strong>ID</strong> é o valor usado nos filtros — não mude IDs existentes sem atualizar os produtos.</p>
+    <div class="cat-list" id="catList"></div>
+    <div class="cat-add">
+      <input type="text" id="newCatName" placeholder="Nome da categoria (Ex: Mudas de Interior)">
+      <input type="text" id="newCatId" placeholder="ID (ex: mudas-interior)" style="max-width:180px">
+      <button class="btn btn-primary" onclick="addCategory()">Adicionar</button>
+    </div>
+  </div>`;
+  renderCatList();
+}
+function renderCatList(){
+  const el = document.getElementById('catList');
+  if(!el) return;
+  el.innerHTML = categories.map((c,i)=>`
+  <div class="cat-item">
+    <span>${c.name}</span>
+    <span class="cat-id">${c.id}</span>
+    <button class="btn btn-ghost btn-sm" onclick="editCat(${i})">Editar</button>
+    <button class="btn btn-danger btn-sm" onclick="deleteCat(${i})">Excluir</button>
+  </div>`).join('');
+}
+async function addCategory(){
+  const name = document.getElementById('newCatName').value.trim();
+  let id = document.getElementById('newCatId').value.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  if(!name||!id){toast('Preencha nome e ID da categoria','error');return;}
+  if(categories.find(c=>c.id===id)){toast('Já existe uma categoria com esse ID','error');return;}
+  categories.push({id,name});
+  await saveCategories();
+  document.getElementById('newCatName').value='';
+  document.getElementById('newCatId').value='';
+  renderCatList();
+}
+async function deleteCat(i){
+  const c = categories[i];
+  if(products.find(p=>p.category===c.id)){toast(`Não é possível excluir: há produtos nessa categoria`,'error');return;}
+  categories.splice(i,1);
+  await saveCategories();
+  renderCatList();
+}
+function editCat(i){
+  const c = categories[i];
+  const name = prompt('Novo nome da categoria:',c.name);
+  if(name&&name.trim()!==c.name){
+    categories[i].name = name.trim();
+    saveCategories().then(()=>renderCatList());
+  }
+}
+
+// ── MODAL UTILS ──
+function closeModal(e){
+  if(e&&e.target!==document.getElementById('modalOverlay')) return;
+  document.getElementById('modalOverlay').classList.remove('open');
+  window._pendingImgBase64=null; window._pendingImgName=null;
+}
+
+// ── TOAST ──
+function toast(msg, type=''){
+  const s = document.getElementById('toastStack');
+  const el = document.createElement('div');
+  el.className = `toast-item ${type}`;
+  const icons = {success:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>',
+    error:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9 9 15M9 9l6 6"/></svg>'};
+  el.innerHTML = (icons[type]||'')+msg;
+  s.appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300);},4000);
+}
+function showSaving(show){ document.getElementById('saving').classList.toggle('show',show); }
+
+// ── BOOT ──
+window.addEventListener('DOMContentLoaded',()=>{
+  const t = sessionStorage.getItem('cdm_token');
+  if(t){ TOKEN=t; startApp(); }
+});
+</script>
+</body>
+</html>
