@@ -216,21 +216,29 @@
         modalOverlay.classList.remove('open');
         document.body.style.overflow = '';
       }
-      document.querySelectorAll('.catalog-item, .card-muda').forEach(function(card){
-        card.addEventListener('click', function(e){
-          if (e.target.closest('.card-add')) return;
-          openModal(card);
-        });
-      });
-      document.querySelectorAll('.card-add').forEach(function(btn){
-        btn.addEventListener('click', function(e){
+      // Use event delegation so dynamically-added cards (loaded via fetch) also work
+      document.addEventListener('click', function(e){
+        // "Comprar" button — open WhatsApp directly
+        var addBtn = e.target.closest('.card-add');
+        if (addBtn) {
           e.stopPropagation();
-          var card  = btn.closest('[data-name]');
-          var name  = card ? card.dataset.name : btn.dataset.name;
+          var card  = addBtn.closest('[data-name]');
+          var name  = card ? card.dataset.name : addBtn.dataset.name;
           var price = card ? card.dataset.priceLabel : '';
           openWhatsAppBuy(name, price);
-        });
+          return;
+        }
+        // Click on the card body — open detail modal
+        var card = e.target.closest('.catalog-item, .card-muda');
+        if (card) {
+          openModal(card);
+        }
       });
+
+      // Also expose cdmAddToCart for inline scripts
+      window.cdmAddToCart = function(name, price){
+        openWhatsAppBuy(name, 'R$ ' + Number(price).toFixed(2).replace('.', ','));
+      };
 
     /* ── Filter buttons (catalog page) ── */
     var filterBtns   = document.querySelectorAll('.filter-btn');
