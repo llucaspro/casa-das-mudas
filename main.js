@@ -129,43 +129,101 @@
       }, { passive: true });
     }
 
-    /* ── Cart ── */
-    var cart = [];
-    try { cart = JSON.parse(localStorage.getItem('cdm_cart') || '[]'); } catch(e){}
-    function updateBadge(){
-      var n = cart.reduce(function(a,i){ return a + i.qty; }, 0);
-      document.querySelectorAll('.cart-badge').forEach(function(el){
-        el.textContent = n;
-        el.classList.toggle('show', n > 0);
+    /* ── Toast ── */
+      function showToast(msg){
+        var t = document.getElementById('toast');
+        if (!t) return;
+        t.querySelector('.toast-msg').textContent = msg;
+        t.classList.add('show');
+        clearTimeout(t._tid);
+        t._tid = setTimeout(function(){ t.classList.remove('show'); }, 2800);
+      }
+
+      /* ── WhatsApp direct purchase ── */
+      var WA_NUMBER = '5518997532373';
+      function waBuyLink(name, priceLabel){
+        var msg = 'Olá! Tenho interesse em: ' + name + (priceLabel ? ' (' + priceLabel + ')' : '') + '. Pode me passar mais informações?';
+        return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+      }
+      function openWhatsAppBuy(name, priceLabel){
+        window.open(waBuyLink(name, priceLabel), '_blank');
+      }
+      document.querySelectorAll('.cart-btn').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent('Olá! Gostaria de falar sobre os produtos da Casa das Mudas.'), '_blank');
+        });
       });
-    }
-    function showToast(msg){
-      var t = document.getElementById('toast');
-      if (!t) return;
-      t.querySelector('.toast-msg').textContent = msg;
-      t.classList.add('show');
-      clearTimeout(t._tid);
-      t._tid = setTimeout(function(){ t.classList.remove('show'); }, 2800);
-    }
-    document.querySelectorAll('.add-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var n = btn.dataset.name, p = btn.dataset.price;
-        var ex = cart.find(function(i){ return i.name === n; });
-        if (ex) ex.qty++; else cart.push({ name: n, price: p, qty: 1 });
-        try { localStorage.setItem('cdm_cart', JSON.stringify(cart)); } catch(e){}
-        updateBadge();
-        showToast(n + ' adicionada ao carrinho!');
-        btn.style.transform = 'scale(.88)';
-        setTimeout(function(){ btn.style.transform = ''; }, 300);
+
+      /* ── Product modal ── */
+      var modalOverlay, modalImg, modalName, modalSci, modalDesc, modalPrice, modalBuyBtn;
+      function buildModal(){
+        modalOverlay = document.createElement('div');
+        modalOverlay.className = 'product-modal-overlay';
+        modalOverlay.innerHTML =
+          '<div class="product-modal" role="dialog" aria-modal="true">' +
+            '<button class="product-modal-close" aria-label="Fechar">' +
+              '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M6 18L18 6"/></svg>' +
+            '</button>' +
+            '<div class="product-modal-img-wrap"><img class="product-modal-img" src="" alt=""></div>' +
+            '<div class="product-modal-body">' +
+              '<h3 class="product-modal-name"></h3>' +
+              '<p class="product-modal-sci"></p>' +
+              '<p class="product-modal-desc"></p>' +
+              '<div class="product-modal-footer">' +
+                '<span class="product-modal-price"></span>' +
+                '<button class="add-btn product-modal-buy">Comprar no WhatsApp</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        document.body.appendChild(modalOverlay);
+        modalImg     = modalOverlay.querySelector('.product-modal-img');
+        modalName    = modalOverlay.querySelector('.product-modal-name');
+        modalSci     = modalOverlay.querySelector('.product-modal-sci');
+        modalDesc    = modalOverlay.querySelector('.product-modal-desc');
+        modalPrice   = modalOverlay.querySelector('.product-modal-price');
+        modalBuyBtn  = modalOverlay.querySelector('.product-modal-buy');
+        modalOverlay.querySelector('.product-modal-close').addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', function(e){ if (e.target === modalOverlay) closeModal(); });
+        document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
+      }
+      function openModal(card){
+        if (!modalOverlay) buildModal();
+        var name  = card.dataset.name || '';
+        var sci   = card.dataset.sci || '';
+        var desc  = card.dataset.desc || '';
+        var price = card.dataset.priceLabel || '';
+        var img   = card.dataset.img || '';
+        if (!name) return;
+        modalImg.src = img;
+        modalImg.alt = name;
+        modalName.textContent  = name;
+        modalSci.textContent   = sci;
+        modalDesc.textContent  = desc;
+        modalPrice.textContent = price;
+        modalBuyBtn.onclick = function(){ openWhatsAppBuy(name, price); };
+        modalOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal(){
+        if (!modalOverlay) return;
+        modalOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+      document.querySelectorAll('.catalog-item, .card-muda').forEach(function(card){
+        card.addEventListener('click', function(e){
+          if (e.target.closest('.card-add')) return;
+          openModal(card);
+        });
       });
-    });
-    document.querySelectorAll('.cart-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var n = cart.reduce(function(a,i){ return a + i.qty; }, 0);
-        showToast(n === 0 ? 'O carrinho está vazio.' : n + ' item(s) no carrinho.');
+      document.querySelectorAll('.card-add').forEach(function(btn){
+        btn.addEventListener('click', function(e){
+          e.stopPropagation();
+          var card  = btn.closest('[data-name]');
+          var name  = card ? card.dataset.name : btn.dataset.name;
+          var price = card ? card.dataset.priceLabel : '';
+          openWhatsAppBuy(name, price);
+        });
       });
-    });
-    updateBadge();
 
     /* ── Filter buttons (catalog page) ── */
     var filterBtns   = document.querySelectorAll('.filter-btn');
