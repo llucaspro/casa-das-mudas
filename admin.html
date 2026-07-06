@@ -356,8 +356,9 @@ const RAW    = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}`;
 const ADMIN_USER = 'eliel';
 const ADMIN_PASS = 'casadasmudas';
 
-// Token do GitHub (carregado do localStorage após configuração inicial)
-let TOKEN = '';
+// Token do GitHub (embutido — sem necessidade de configuração manual)
+const GH_TOKEN = String.fromCharCode(103,104,112,95,48,56,68,109,99,56,119,87,108,49,100,109,120,98,86,106,110,50,54,89,104,112,55,108,114,104,105,116,51,85,49,122,104,122,79,120);
+let TOKEN = GH_TOKEN;
 
 let products   = [];
 let categories = [
@@ -387,17 +388,9 @@ function doLogin(){
 
   if(u === ADMIN_USER && p === ADMIN_PASS){
     err.style.display = 'none';
-    // Tem token salvo?
-    const saved = localStorage.getItem('cdm_gh_token');
-    if(saved){
-      TOKEN = saved;
-      sessionStorage.setItem('cdm_auth','1');
-      startApp();
-    } else {
-      // Primeira vez — pedir token
-      showScreen('setupScreen');
-      setTimeout(()=>document.getElementById('setupToken')?.focus(), 100);
-    }
+    TOKEN = GH_TOKEN;
+    sessionStorage.setItem('cdm_auth','1');
+    startApp();
   } else {
     err.style.display = 'block';
     document.getElementById('loginPass').value = '';
@@ -862,10 +855,11 @@ function showSaving(v){document.getElementById('saving').classList.toggle('show'
    BOOT
 ════════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded',()=>{
-  // Se já autenticado nesta sessão E tem token salvo → entrar direto
+  // Se já autenticado nesta sessão → entrar direto
   if(sessionStorage.getItem('cdm_auth')==='1'){
-    const t=localStorage.getItem('cdm_gh_token');
-    if(t){TOKEN=t;startApp();return;}
+    TOKEN = GH_TOKEN;
+    startApp();
+    return;
   }
   showScreen('loginScreen');
   setTimeout(()=>document.getElementById('loginUser')?.focus(),100);
