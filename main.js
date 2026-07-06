@@ -108,6 +108,13 @@
           revealEls.forEach(function(el){ el.classList.add('visible'); });
         }
       };
+      // Expose for pages that add .reveal elements dynamically (e.g. product grids)
+      window.cdmReveal = function(){
+        document.querySelectorAll('.reveal:not(.visible)').forEach(function(el){
+          el.classList.add('visible');
+        });
+      };
+
       var introEl = document.getElementById('intro');
       if (introEl) {
         window.addEventListener('cdmIntroDone', startReveal, { once: true });
