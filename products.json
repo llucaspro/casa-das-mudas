@@ -214,5 +214,17 @@
     "img": "https://i.postimg.cc/CKvfk2WR/IMG-20260706-WA0032.jpg",
     "desc": "Fruta doce de polpa branca e macia, parente da fruta do conde. ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂtima para consumo in natura e fÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡cil de cultivar em quintais.",
     "active": true
+  },
+  {
+    "id": 19,
+    "name": "Bulbos de Açafrão (Cúrcuma) para o plantio",
+    "sci": "Bulbos de Açafrão (Cúrcuma) para o plantio",
+    "price": 1,
+    "stock": 1000,
+    "category": "sementes-frutas",
+    "badge": "",
+    "img": "https://raw.githubusercontent.com/llucaspro/casa-das-mudas/main/images/produtos/img_19_1784809573916.jpeg",
+    "desc": "bulbos pra o plantio",
+    "active": true
   }
 ]
