@@ -382,9 +382,8 @@ const RAW    = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}`;
 const ADMIN_USER = 'eliel';
 const ADMIN_PASS = 'casadasmudas';
 
-// Token do GitHub (embutido — sem necessidade de configuração manual)
-const GH_TOKEN = String.fromCharCode(103,104,112,95,48,56,68,109,99,56,119,87,108,49,100,109,120,98,86,106,110,50,54,89,104,112,55,108,114,104,105,116,51,85,49,122,104,122,79,120);
-let TOKEN = GH_TOKEN;
+// O token é configurado pelo administrador e fica somente neste navegador.
+let TOKEN = localStorage.getItem('cdm_gh_token') || '';
 
 let products   = [];
 let categories = [
@@ -414,9 +413,12 @@ function doLogin(){
 
   if(u === ADMIN_USER && p === ADMIN_PASS){
     err.style.display = 'none';
-    TOKEN = GH_TOKEN;
-    sessionStorage.setItem('cdm_auth','1');
-    startApp();
+    if(TOKEN){
+      sessionStorage.setItem('cdm_auth','1');
+      startApp();
+    } else {
+      showScreen('setupScreen');
+    }
   } else {
     err.style.display = 'block';
     document.getElementById('loginPass').value = '';
@@ -537,8 +539,9 @@ async function saveCategories(){
   const sha = (await ghGet('categories.json'))?.sha;
   const ok  = await ghPut('categories.json', JSON.stringify(categories,null,2),'Admin: categorias', sha);
   showSaving(false);
-  if(ok) toast('Categorias salvas!','success');
-  else   toast('Erro ao salvar','error');
+  if(ok) toast('Categorias salvas! O site atualiza em ~1 minuto','success');
+  else   toast('Não foi possível salvar as categorias. Nenhuma alteração local foi mantida.','error');
+  return ok;
 }
 
 /* ════════════════════════════════════════════
@@ -835,33 +838,55 @@ function renderCategories(c){
 }
 function renderCatList(){
   const el=document.getElementById('catList'); if(!el) return;
-  el.innerHTML=categories.map((c,i)=>`
+  el.innerHTML=categories.length ? categories.map((c,i)=>`
   <div class="cat-item">
-    <span>${c.name}</span><span class="cat-id">${c.id}</span>
+    <span>${escapeHtml(c.name)}</span><span class="cat-id">${escapeHtml(c.id)}</span>
     <button class="btn btn-ghost btn-sm" onclick="editCat(${i})">Renomear</button>
     <button class="btn btn-danger btn-sm" onclick="deleteCat(${i})">Excluir</button>
-  </div>`).join('');
+  </div>`).join('') : '<div class="empty"><h3>Nenhuma categoria cadastrada</h3><p>Use o formulário abaixo para criar a primeira.</p></div>';
+}
+function slugify(value){
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,80);
+}
+function escapeHtml(value){
+  return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
 async function addCat(){
   const name=document.getElementById('newCatName').value.trim();
-  const id=document.getElementById('newCatId').value.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
-  if(!name||!id){toast('Preencha nome e ID','error');return;}
-  if(categories.find(c=>c.id===id)){toast('ID já existe','error');return;}
+  const typedId=document.getElementById('newCatId').value.trim();
+  const id=slugify(typedId || name);
+  if(name.length < 2 || !id){toast('Informe um nome válido para a categoria','error');return;}
+  if(categories.some(c=>c.id===id || c.name.trim().toLowerCase()===name.toLowerCase())){toast('Essa categoria já existe','error');return;}
+  const previous=categories.slice();
   categories.push({id,name});
-  await saveCategories();
-  document.getElementById('newCatName').value='';
-  document.getElementById('newCatId').value='';
-  renderCatList();
+  if(await saveCategories()){
+    document.getElementById('newCatName').value='';
+    document.getElementById('newCatId').value='';
+    renderCatList();
+  } else {
+    categories=previous;
+  }
 }
 async function deleteCat(i){
-  if(products.find(p=>p.category===categories[i].id)){toast('Há produtos nessa categoria','error');return;}
+  const cat=categories[i];
+  if(!cat) return;
+  if(products.find(p=>p.category===cat.id)){toast('Há produtos nessa categoria','error');return;}
+  if(!confirm('Excluir a categoria "'+cat.name+'"?')) return;
+  const previous=categories.slice();
   categories.splice(i,1);
-  await saveCategories();
-  renderCatList();
+  if(await saveCategories()) renderCatList();
+  else categories=previous;
 }
-function editCat(i){
-  const name=prompt('Novo nome:',categories[i].name);
-  if(name?.trim()){categories[i].name=name.trim();saveCategories().then(renderCatList);}
+async function editCat(i){
+  const cat=categories[i]; if(!cat) return;
+  const name=prompt('Novo nome:',cat.name)?.trim();
+  if(!name || name===cat.name) return;
+  if(categories.some((c,index)=>index!==i && c.name.toLowerCase()===name.toLowerCase())){toast('Essa categoria já existe','error');return;}
+  const previous=categories.slice();
+  categories[i]={...cat,name};
+  if(await saveCategories()) renderCatList();
+  else categories=previous;
 }
 
 /* ── Utils ── */
@@ -896,11 +921,12 @@ function closeSidebar(){
 ════════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded',()=>{
   // Se já autenticado nesta sessão → entrar direto
-  if(sessionStorage.getItem('cdm_auth')==='1'){
-    TOKEN = GH_TOKEN;
+  if(sessionStorage.getItem('cdm_auth')==='1' && TOKEN){
     startApp();
     return;
   }
+  sessionStorage.removeItem('cdm_auth');
+  TOKEN = '';
   showScreen('loginScreen');
   setTimeout(()=>document.getElementById('loginUser')?.focus(),100);
 });
